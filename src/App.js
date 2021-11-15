@@ -17,7 +17,7 @@ function App() {
         >
           Learn React
         </a>
-        <img src='https://cdn.dribbble.com/users/5920881/screenshots/14088635/media/da11146df7c3cb056c8d8aa60333b935.gif' alt=''/>
+       
       </header>
     </div>
   );

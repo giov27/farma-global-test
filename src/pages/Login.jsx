@@ -1,5 +1,5 @@
 import './Login.css'
-import { Button, Card, CardBody, CardSubtitle, CardText, CardTitle, Container, Form, FormGroup, Input, Label } from 'reactstrap'
+import { Button, Card, CardBody, CardSubtitle, CardTitle, Container, Form, FormGroup, Input, Label } from 'reactstrap'
 import { useState } from 'react'
 import { authLogin } from '../api/api.js'
 

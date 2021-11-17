@@ -10,8 +10,10 @@ export const authLogin = async (data) =>{
 }
 
 // Get patient list with pagination
-export const patientList = async (token, page, patient_name, gender, city_id, address ) =>{
+// export const patientList = async (token, page, patient_name, gender, city_id, address ) =>{
+export const patientList = async (token, page, data ) =>{
   const url =`${baseURL}/patient/list/${page}`
+  const {patient_name, gender, city_id, address} = data
   const response = await axios.get(url,{
     headers:{
       Authorization: `Bearer ${token}`
@@ -91,8 +93,8 @@ export const patientDelete = async (token, id) =>{
   return response
 }
 
-export const cityList = async (token, page_number, key ) =>{
-  const url =`${baseURL}/patient/city/auto`
+export const cityList = async (token, key, page_number=1 ) =>{
+  const url =`${baseURL}/city/auto`
   const response = await axios.get(url,
   {
     headers:{

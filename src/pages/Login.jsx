@@ -1,13 +1,18 @@
 import './Login.css'
-import { Button, Card, CardBody, CardSubtitle, CardTitle, Container, Form, FormGroup, Input, Label } from 'reactstrap'
+import { Button, Card, CardBody, CardSubtitle, CardTitle, Container, Form, FormGroup, Input, Label, Spinner } from 'reactstrap'
 import { useState } from 'react'
 import { authLogin } from '../api/api.js'
+import { useNavigate } from 'react-router-dom'
+import { Navbar } from '../component/Navbar'
 
 const Login = () => {
+  let navigate = useNavigate()
   const [values, setValues] = useState({
     username: '',
     password: ''
   })
+  const [isLoading, setIsLoading] = useState(false)
+  const [loginError, setLoginError] = useState('')
 
   const handleChange = (e) => {
     console.log(e.target.value);
@@ -21,8 +26,20 @@ const Login = () => {
   // API
   const postAuthLogin = async (e)=>{
     e.preventDefault()
+    setIsLoading(true)
+    setLoginError('')
     const res= await authLogin(values)
-    console.log(res);
+    setTimeout(() => {
+      if(res.data.metaData.code === 200){
+        const token = res.data.response.token
+        localStorage.setItem('token', token)
+        // redirect
+        navigate('/patient')
+      }else {
+        setLoginError(res.data.metaData.message[0])
+      }
+      setIsLoading(false)
+    }, 800);
   }
 
   return (
@@ -69,8 +86,11 @@ const Login = () => {
                     </Label>
                   </FormGroup>
                   {' '}
+                  {loginError && 
+                    <p>{loginError}</p>
+                  }
                   <Button block size='lg' className='login__button mt-4' type='submit'>
-                    Login
+                    {isLoading ? <Spinner size='sm'/> : 'Login'}
                   </Button>
                 </Form>
             </CardBody>

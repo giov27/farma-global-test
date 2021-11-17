@@ -1,13 +1,13 @@
 .patient__table {
-  max-width: 900px;
-  min-height: 300px;
+  max-width: 950px;
+  min-height: 350px;
   border-radius: 24px;
   background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 15px 60px;
+  box-shadow: rgba(237, 193, 193, 0.542) 0px 10px 30px;
 }
 
 .patient__page {
-  background-color: #927b3f;
+  background-color: #2d323ae7;
   min-height: 100vh;
   padding-top: 20vh;
 }

@@ -41,8 +41,6 @@ export const patientById = async (token, id) =>{
 export const patientAdd = async (token, data) =>{
   const url =`${baseURL}/patient/add`
   const { patientName, gender, birthDate, birthPlace, address, phoneNumber } = data
-  console.log('api'+ birthDate);
-  console.log(data);
   const response = await axios.post(url,
   {
     patient_name: patientName,
@@ -56,27 +54,32 @@ export const patientAdd = async (token, data) =>{
     headers:{
       Authorization: `Bearer ${token}`
     }
+  }).catch(err =>{
+    console.log(err);
   })
   return response
 }
 
 export const patientEdit = async (token, data, id) =>{
   const url =`${baseURL}/patient/edit`
-  // const { patient_name, gender, birth_date, birth_place, address, phone_number } = data
+  const { patient_name, gender, birth_date, birth_place, address, phone_number, patient_id } = data
+  console.log(data);
   const response = await axios.post(url,
   {
     patient_id: id,
-    patient_name: "Byanca Harahap",
-    gender: "P",
-    birth_date: "1994-12-15",
-    birth_place: 501,
-    address: "Yogyakarta",
-    phone_number: "085463728901"
+    patient_name: patient_name,
+    gender: gender,
+    birth_date: birth_date,
+    birth_place: parseInt(birth_place),
+    address: address,
+    phone_number: phone_number
   },
   {
     headers:{
       Authorization: `Bearer ${token}`
     }
+  }).catch(err =>{
+    console.log(err);
   })
   return response
 }

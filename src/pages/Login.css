@@ -1,5 +1,5 @@
 .login__section {
-  background-color: #e47e78;
+  background-color: #f0871d;
   min-height: 100vh;
 }
 
@@ -25,4 +25,8 @@
 
 .login__cardbody {
   min-width: 300px;
+}
+
+.login__logo {
+  max-width: 50px;
 }

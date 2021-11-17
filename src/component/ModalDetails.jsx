@@ -20,18 +20,12 @@ const ModalDetails = ({modal, toggle, data}) => {
           Patient Details
         </ModalHeader>
         <ModalBody>
-          <h5>Name: </h5>
-          <h4>{patient_name}</h4>
-          <h5>Gender: </h5>
-          <h4>{gender}</h4>
-          <h5>Birth Place: </h5>
-          <h4>{birth_place.city_name}</h4>
-          <h5>Birth of Date: </h5>
-          <h4>{birth_date}</h4>
-          <h5>Address: </h5>
-          <h4>{address}</h4>
-          <h5>Phone Number </h5>
-          <h4>{phone_number}</h4>
+          <h5>Name: {patient_name}</h5>
+          <h5>Gender: {gender}</h5>
+          <h5>Birth Place: {birth_place.city_name}</h5>
+          <h5>Birth of Date: {birth_date}</h5>
+          <h5>Address: {address}</h5>
+          <h5>Phone Number: {phone_number}</h5>
           {/* <Button color='danger' onClick={toggle}>
             Delete
           </Button> */}

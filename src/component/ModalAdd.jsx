@@ -1,18 +1,27 @@
 import { useEffect, useState } from "react"
-import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader } from "reactstrap"
+import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader, Spinner } from "reactstrap"
 import { cityList, patientAdd } from "../api/api"
 import './ModalAdd.css'
+import ModalInfo from "./ModalInfo"
 
-const ModalAdd = ({token, modal, toggle}) => {
-  const [values, setValues]= useState({
+const ModalAdd = ({token, modal, toggle, refreshTable}) => {
+  const initialValues = {
     patientName:'',
     gender:'L',
     birthDate:'',
     birthPlace:'',
     address:'',
     phoneNumber:null
-  })
+  }
+  const [values, setValues]= useState(initialValues)
   const [birthPlaceCity,setbirthPlaceCity] = useState()
+  const [isSpinner, setIsSpinner] = useState(false)
+  const [messageAdd, setMessageAdd] = useState({
+    code: null,
+    message: ''
+  })
+  const [modalInfo, setModalInfo] = useState(false)
+  const toggleInfo= ()=> setModalInfo(!modalInfo)
 
   const handleChangeBirthPlace = (e) => {
     getCityList()
@@ -42,11 +51,29 @@ const ModalAdd = ({token, modal, toggle}) => {
 
   const postAddPatient = async (e)=>{
     e.preventDefault()
+    setIsSpinner(true)
     const res = await patientAdd(token, values)
-    console.log(res);
-
+    console.log(res)
+    // isSpinner On
+    setTimeout(() => {
+      if(res){
+        setMessageAdd({
+          code: res.status,
+          message: res.data.metaData.message
+        })
+        setValues(initialValues)
+        refreshTable()
+        toggle()
+      } else {
+        setMessageAdd({
+          code: 500,
+          message: 'Failed to add patient'
+        })
+      }
+      setIsSpinner(false)
+    }, 1000);
   }
-
+  
   // useEffect(() => {
   //   getCityList()
   // }, [])
@@ -152,18 +179,25 @@ const ModalAdd = ({token, modal, toggle}) => {
                 />
                 <Label for='phoneNumber'>Phone Number</Label>
               </FormGroup>
-              <div className="d-flex justify-content-end">
+              <div className="d-flex justify-content-end flex-column">
+              {messageAdd.code && <p className='text-center'>{messageAdd.message}</p> }
                 <Button
-                  className='login__button mt-3'
+                  className='login__button mt-1'
                   type='submit'
                   color='primary'
                   toggle={toggle}>
-                    Add Patient
+                    {isSpinner? <Spinner size='sm'/>: 'Add Patient'}
                 </Button>
               </div>
             </Form>
           </ModalBody>
         </Modal>
+        <ModalInfo
+          modal={modalInfo}
+          toggle={toggleInfo}
+          children='Patient Added Successfully'
+          isSpinner={isSpinner}
+        />
     </div>
   )
 }

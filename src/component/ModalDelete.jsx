@@ -1,6 +1,6 @@
-import { Button,  Modal, ModalBody, ModalHeader } from "reactstrap"
+import { Button,  Modal, ModalBody, ModalHeader, Spinner } from "reactstrap"
 
-const ModalDelete = ({modal, toggle, deleteInfo, deleteById, token}) => {
+const ModalDelete = ({modal, toggle, deleteInfo, deleteById, token,isSpinner}) => {
   const { patient_name, patient_id }= deleteInfo
   return (
     <div>
@@ -13,10 +13,9 @@ const ModalDelete = ({modal, toggle, deleteInfo, deleteById, token}) => {
           Delete Patient
         </ModalHeader>
         <ModalBody>
-          <h4>Are you sure want to delete patient {patient_name}</h4>
-          <Button color='danger' onClick={deleteById}>
-            Delete
-            {/* {isSpinner ? <Spinner children='' size='sm' /> : 'Delete'} */}
+          <h4 className='text-center'>Are you sure want to delete {patient_name} ?</h4>
+          <Button color='danger' onClick={deleteById} block>
+            {isSpinner ? <Spinner size='sm' /> : 'Delete'}
           </Button>
         </ModalBody>
       </Modal>

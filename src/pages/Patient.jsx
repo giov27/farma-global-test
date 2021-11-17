@@ -21,9 +21,9 @@ const Patient = () => {
     address:''
   })
 
-  const getPatientList = async (token, page, data)=>{
+  const getPatientList = async ()=>{
     setIsSpinner(true)
-    const res = await patientList(token, page, data)
+    const res = await patientList(token, pages, patientParams)
     setTimeout(() => {
       setPatient(res.data.response.data)
       setIsSpinner(false)
@@ -32,7 +32,7 @@ const Patient = () => {
 
 
   useEffect(() => {
-    getPatientList(token, pages, patientParams)
+    getPatientList()
   }, [pages])
 
   return (
@@ -46,6 +46,8 @@ const Patient = () => {
         <PatientTable
           data={patient}
           token={token}
+          pages={pages}
+          getList={getPatientList}
         />
         }
       </div>

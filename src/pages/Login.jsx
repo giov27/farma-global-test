@@ -51,7 +51,7 @@ const Login = () => {
          <div>
             <CardBody className='login__cardbody'>
               <CardTitle tag="h2" className='text-center'>
-                Login
+                Login <span><img src="https://farmagitechs.co.id/wp-content/uploads/2021/06/cropped-Logo-PT.-FG.jpeg" alt="" className='login__logo'/></span>
               </CardTitle>
               <CardSubtitle
                 className="mb-4 text-muted text-center"

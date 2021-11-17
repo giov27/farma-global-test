@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react"
-import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader } from "reactstrap"
+import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader, Spinner } from "reactstrap"
 import { cityList, patientAdd, patientEdit } from "../api/api"
 import './ModalAdd.css'
 
-const ModalUpdate = ({token, modal, toggle, data}) => {
-  console.log(data);
+const ModalUpdate = ({token, modal, toggle, data, refreshTable}) => {
+  console.log('modal: ' + data.birth_place.city_id);
+  const [messageUpdate, setMessageUpdate] = useState({
+    code: null,
+    message: ''
+  })
+  const [isSpinner, setIsSpinner] = useState(false)
+
   const { 
     patient_id, 
     patient_name, 
@@ -14,14 +20,27 @@ const ModalUpdate = ({token, modal, toggle, data}) => {
     address,
     phone_number 
   }= data
-  const [values, setValues]= useState({
-    patientName:'',
-    gender:'L',
-    birthDate:'',
-    birthPlace:'',
-    address:'',
-    phoneNumber:null
+  const [values, setValues]= useState({ 
+    patient_id: patient_id, 
+    patient_name: patient_name, 
+    gender: gender, 
+    birth_date: birth_date,
+    birth_place: birth_place.city_id,
+    address: address,
+    phone_number: phone_number 
   })
+  useEffect(() => {
+    setValues({ 
+      patient_id: data.patient_id, 
+      patient_name: data.patient_name, 
+      gender: data.gender, 
+      birth_date: data.birth_date,
+      birth_place: data.birth_place.city_id,
+      address: data.address,
+      phone_number: data.phone_number 
+    })
+  }, [data])
+
   const [birthPlaceCity,setbirthPlaceCity] = useState()
 
   const handleChangeBirthPlace = (e) => {
@@ -54,12 +73,25 @@ const ModalUpdate = ({token, modal, toggle, data}) => {
     e.preventDefault()
     const res = await patientEdit(token, values, patient_id )
     console.log(res);
+    setIsSpinner(true)
+    setTimeout(() => {
+      if(res){
+        setMessageUpdate({
+          code: res.status,
+          message: res.data.metaData.message
+        })
+        refreshTable()
+        toggle()
+      } else {
+        setMessageUpdate({
+          code: 500,
+          message: 'Failed to add patient'
+        })
+      }
+      setIsSpinner(false)
+    }, 1000);
 
   }
-
-  // useEffect(() => {
-  //   getCityList()
-  // }, [])
 
   return (
     <div>
@@ -77,14 +109,14 @@ const ModalUpdate = ({token, modal, toggle, data}) => {
                 <div className="col-8">
                   <FormGroup floating>
                     <Input
-                      id="patientName"
-                      name="patientName"
+                      id="patient_name"
+                      name="patient_name"
                       placeholder="Patient Name"
                       type="text"
                       onChange={handleChange}
-                      value={patient_name}
+                      value={values.patient_name}
                     />
-                    <Label for="patientName">
+                    <Label for="patient_name">
                       Patient Name
                     </Label>
                   </FormGroup>
@@ -97,7 +129,7 @@ const ModalUpdate = ({token, modal, toggle, data}) => {
                       placeholder="Gender"
                       type="select"
                       onChange={handleChange}
-                      value={gender}
+                      value={values.gender}
                     >
                       <option value='L'>L</option>
                       <option value='P'>P</option>
@@ -112,14 +144,14 @@ const ModalUpdate = ({token, modal, toggle, data}) => {
                 <div className="col-5">
                   <FormGroup floating>
                     <Input
-                      id="birthDate"
-                      name="birthDate"
+                      id="birth_date"
+                      name="birth_date"
                       placeholder="Date Of Birth"
                       type="date"
                       onChange={handleChange}
-                      // value={birth_date}
+                      value={values.birth_date}
                     />
-                    <Label for="birthDate">
+                    <Label for="birth_date">
                       Date Of Birth
                     </Label>
                   </FormGroup>
@@ -127,22 +159,22 @@ const ModalUpdate = ({token, modal, toggle, data}) => {
                 <div className="col-7">
                   <FormGroup floating className=''>
                     <Input
-                      id="birthPlace"
-                      name="birthPlace"
+                      id="birth_place"
+                      name="birth_place"
                       placeholder="Place Of Birth"
                       type="number"
                       onChange={handleChangeBirthPlace}
                       autoComplete='off'
-                      value={birth_place.city_id}
+                      value={values.birth_place}
                     />
-                    <Label for="birthPlace">
+                    <Label for="birth_place">
                       Place Of Birth (Input code Area)
                     </Label>
-                    <ul className='autoComplete'>
+                    {/* <ul className='autoComplete'>
                     {birthPlaceCity && birthPlaceCity.map((city)=>
                           <li key={city.id} className='autoComplete'>{city.city_name} ({city.id})</li>  
                       )}
-                    </ul>
+                    </ul> */}
                   </FormGroup>
                 </div>
               </div>
@@ -153,28 +185,29 @@ const ModalUpdate = ({token, modal, toggle, data}) => {
                   placeholder='Address'
                   type='textarea'
                   onChange={handleChange}
-                  value={address}
+                  value={values.address}
                 />
                 <Label for='address'>Address</Label>
               </FormGroup>
               <FormGroup floating>
                 <Input
-                  id='phoneNumber'
-                  name='phoneNumber'
+                  id='phone_number'
+                  name='phone_number'
                   placeholder='Phone Number'
                   type='text'
                   onChange={handleChange}
-                  value={phone_number}
+                  value={values.phone_number}
                 />
-                <Label for='phoneNumber'>Phone Number</Label>
+                <Label for='phone_number'>Phone Number</Label>
               </FormGroup>
-              <div className="d-flex justify-content-end">
+              <div className="d-flex justify-content-end flex-column">
+                {messageUpdate.code && <p className='text-center'>{messageUpdate.message}</p> }
                 <Button
                   className='login__button mt-3'
                   type='submit'
                   color='primary'
                   toggle={toggle}>
-                    Update Patient Data
+                    {isSpinner? <Spinner size='sm'/>: 'Update Patient Data'}
                 </Button>
               </div>
             </Form>

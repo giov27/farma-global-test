@@ -8,10 +8,12 @@ import { patientDeleteById } from "../api/api"
 import { useState } from "react"
 import ModalAdd from "./ModalAdd";
 import ModalUpdate from "./ModalUpdate";
+import './PatientTable.css'
 
-const PatientTable = ({token, data}) => {
-  // const [deleteData, setDeleteData] = useState(data)
+const PatientTable = ({token, data, pages, getList}) => {
+  const page = ((pages-1)*5)+1
   const [indexData, setIndexData] = useState(0)
+  const[isSpinner, setIsSpinner] = useState(false)
 
   const [modalAdd, setModalAdd] = useState(false)
   const toggleAdd = () => setModalAdd(!modalAdd)
@@ -27,8 +29,7 @@ const PatientTable = ({token, data}) => {
 
   const toggleUpdateIndex = (modal, index) =>{
     setIndexData(index)
-    // console.log(index);
-    console.log(data[index]);
+    console.log(index);
     if (modal === 'details') {
       toggleDetails()
     } else if(modal === 'delete') {
@@ -40,21 +41,28 @@ const PatientTable = ({token, data}) => {
 
   const deletePatient = async()=>{    
     const res = await patientDeleteById(token, data[indexData].patient_id)
+    setIsSpinner(true)
+    setTimeout(() => {
+      toggleDelete()
+      setIsSpinner(false)
+      getList()
+    }, 800);
     console.log(res);
   }
 
   return (
-    <div className='d-flex flex-column'>
-      <div className='d-flex justify-content-between px-3'>
-        <h1>Patient List</h1>
+    <div className='d-flex flex-column table-style'>
+      <div className='d-flex justify-content-between p-2'>
+        <h1><span><img src="https://farmagitechs.co.id/wp-content/uploads/2021/06/cropped-Logo-PT.-FG.jpeg" alt="" className='login__logo me-3'/></span>Patient List</h1>
         <div className='align-self-center me-4'>
-          <Button onClick={toggleAdd} color='primary' size='sm' ><FaPlusSquare/> Add Patient  </Button>
+          <Button onClick={toggleAdd} color='primary' size='md' ><FaPlusSquare/> Add Patient  </Button>
         </div>
       </div>
         <ModalAdd
           modal={modalAdd}
           toggle={toggleAdd}
           token = {token}
+          refreshTable={getList}
         />
        <Table
           // bordered
@@ -91,7 +99,7 @@ const PatientTable = ({token, data}) => {
             {data && data.map((data, i)=>
               <tr key={i}>
                 <th scope="row">
-                  {data.patient_id}
+                  {page+i}
                 </th>
                 <td>
                   {data.patient_name}
@@ -106,12 +114,12 @@ const PatientTable = ({token, data}) => {
                   {data.phone_number}
                 </td>
                 <td>
-                  <Button onClick={()=>toggleUpdateIndex('details',i) } color='primary' size='sm' id='SeeDetails'><BiDetail/></Button>
+                  <Button onClick={()=>toggleUpdateIndex('details',i) } color='primary' size='md' id='SeeDetails'><BiDetail/></Button>
                   {' '}
-                  <Button onClick={()=>toggleUpdateIndex('update', i) } color='primary' size='sm'><MdUpdate/></Button>
+                  <Button onClick={()=>toggleUpdateIndex('update',i) } color='primary' size='md'><MdUpdate/></Button>
                   {/* <Button onClick={()=>deletePatient(token, data.patient_id) } color='danger' ><MdDelete/></Button>                             */}
                   {' '}
-                  <Button onClick={()=>toggleUpdateIndex('delete', i) } color='danger' size='sm'><MdDelete/></Button>                            
+                  <Button onClick={()=>toggleUpdateIndex('delete', i) } color='danger' size='md'><MdDelete/></Button>                            
                 </td>
               </tr>
 
@@ -123,6 +131,7 @@ const PatientTable = ({token, data}) => {
               deleteInfo={data[indexData]} //parsingNameData
               deleteById={deletePatient} //function
               token={token}
+              isSpinner={isSpinner}
             />
             }
 
@@ -139,7 +148,9 @@ const PatientTable = ({token, data}) => {
               modal={modalUpdate}
               toggle={toggleUpdate}
               data={data[indexData]} //parsingNameData
+              // indexData={indexData}
               token={token}
+              refreshTable={getList}
             />
             }
           </tbody>

@@ -2,8 +2,8 @@
   max-width: 950px;
   min-height: 350px;
   border-radius: 24px;
-  background-color: white;
-  box-shadow: rgba(237, 193, 193, 0.542) 0px 10px 30px;
+  background-color: rgba(255, 240, 240, 0.905);
+  box-shadow: rgba(237, 193, 193, 0.542) 0px 7px 20px;
 }
 
 .patient__page {

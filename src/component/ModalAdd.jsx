@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react"
+import {  useState } from "react"
 import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader, Spinner } from "reactstrap"
 import { cityList, patientAdd } from "../api/api"
 import './ModalAdd.css'
-import ModalInfo from "./ModalInfo"
+// import ModalInfo from "./ModalInfo"
 
 const ModalAdd = ({token, modal, toggle, refreshTable}) => {
   const initialValues = {
@@ -20,12 +20,12 @@ const ModalAdd = ({token, modal, toggle, refreshTable}) => {
     code: null,
     message: ''
   })
-  const [modalInfo, setModalInfo] = useState(false)
-  const toggleInfo= ()=> setModalInfo(!modalInfo)
+  // const [modalInfo, setModalInfo] = useState(false)
+  // const toggleInfo= ()=> setModalInfo(!modalInfo)
 
   const handleChangeBirthPlace = (e) => {
     getCityList()
-    console.log(e.target.value);
+    // console.log(e.target.value);
     const { name, value} = e.target
     setValues({
       ...values,
@@ -34,7 +34,6 @@ const ModalAdd = ({token, modal, toggle, refreshTable}) => {
   }
 
   const handleChange = (e) => {
-    console.log(e.target.value);
     const { name, value} = e.target
     setValues({
       ...values,
@@ -46,24 +45,23 @@ const ModalAdd = ({token, modal, toggle, refreshTable}) => {
     const res = await cityList(token, values.birthPlace)
     const resCity = res.data.response.data
     setbirthPlaceCity(resCity)
-    console.log(resCity);
   }
 
   const postAddPatient = async (e)=>{
     e.preventDefault()
+    // isSpinner On
     setIsSpinner(true)
     const res = await patientAdd(token, values)
-    console.log(res)
-    // isSpinner On
     setTimeout(() => {
       if(res){
         setMessageAdd({
           code: res.status,
           message: res.data.metaData.message
         })
-        setValues(initialValues)
-        refreshTable()
+        // toggleInfo()
         toggle()
+        refreshTable()
+        setValues(initialValues)
       } else {
         setMessageAdd({
           code: 500,
@@ -73,10 +71,6 @@ const ModalAdd = ({token, modal, toggle, refreshTable}) => {
       setIsSpinner(false)
     }, 1000);
   }
-  
-  // useEffect(() => {
-  //   getCityList()
-  // }, [])
 
   return (
     <div>
@@ -151,11 +145,11 @@ const ModalAdd = ({token, modal, toggle, refreshTable}) => {
                     <Label for="birthPlace">
                       Place Of Birth (Input code Area)
                     </Label>
-                    <ul className='autoComplete'>
+                    {/* <ul className='autoComplete'>
                     {birthPlaceCity && birthPlaceCity.map((city)=>
                           <li key={city.id} className='autoComplete'>{city.city_name} ({city.id})</li>  
                       )}
-                    </ul>
+                    </ul> */}
                   </FormGroup>
                 </div>
               </div>
@@ -192,12 +186,12 @@ const ModalAdd = ({token, modal, toggle, refreshTable}) => {
             </Form>
           </ModalBody>
         </Modal>
-        <ModalInfo
+        {/* <ModalInfo
           modal={modalInfo}
           toggle={toggleInfo}
           children='Patient Added Successfully'
           isSpinner={isSpinner}
-        />
+        /> */}
     </div>
   )
 }

@@ -3,7 +3,6 @@ import { Button, Card, CardBody, CardSubtitle, CardTitle, Container, Form, FormG
 import { useState } from 'react'
 import { authLogin } from '../api/api.js'
 import { useNavigate } from 'react-router-dom'
-import { Navbar } from '../component/Navbar'
 
 const Login = () => {
   let navigate = useNavigate()

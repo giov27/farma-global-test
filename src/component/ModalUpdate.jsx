@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader, Spinner } from "reactstrap"
-import { cityList, patientAdd, patientEdit } from "../api/api"
+import { cityList, patientEdit } from "../api/api"
 import './ModalAdd.css'
 
 const ModalUpdate = ({token, modal, toggle, data, refreshTable}) => {
@@ -41,11 +41,8 @@ const ModalUpdate = ({token, modal, toggle, data, refreshTable}) => {
     })
   }, [data])
 
-  const [birthPlaceCity,setbirthPlaceCity] = useState()
-
   const handleChangeBirthPlace = (e) => {
-    getCityList()
-    console.log(e.target.value);
+    // getCityList()
     const { name, value} = e.target
     setValues({
       ...values,
@@ -54,7 +51,6 @@ const ModalUpdate = ({token, modal, toggle, data, refreshTable}) => {
   }
 
   const handleChange = (e) => {
-    console.log(e.target.value);
     const { name, value} = e.target
     setValues({
       ...values,
@@ -62,17 +58,16 @@ const ModalUpdate = ({token, modal, toggle, data, refreshTable}) => {
     })
   }
 
-  const getCityList = async ()=>{
-    const res = await cityList(token, values.birthPlace)
-    const resCity = res.data.response.data
-    setbirthPlaceCity(resCity)
-    console.log(resCity);
-  }
+  // const getCityList = async ()=>{
+  //   const res = await cityList(token, values.birthPlace)
+  //   const resCity = res.data.response.data
+  //   setbirthPlaceCity(resCity)
+  //   console.log(resCity);
+  // }
 
   const postUpdatePatient = async (e)=>{
     e.preventDefault()
     const res = await patientEdit(token, values, patient_id )
-    console.log(res);
     setIsSpinner(true)
     setTimeout(() => {
       if(res){

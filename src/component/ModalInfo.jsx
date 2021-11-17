@@ -23,9 +23,8 @@ const ModalInfo = ({
 				</ModalHeader>
 				<ModalBody className='px-5 pt-0 pb-5 mx-4'>
 					<p className='b-600 fs-24 text-center text-capitalize'>{children}</p>
-					<p className='b-500 fs-18 text-center'>Thanks for your transaction</p>
+					{/* <p className='b-500 fs-18 text-center'>Thanks for your transaction</p> */}
 					<Button className='mt-3 py-3' color='primary' type='submit' onClick={toggle}>
-            {/* Done */}
 						{isSpinner ? <Spinner children='' size='sm' /> : 'Done'}
 					</Button>
 				</ModalBody>

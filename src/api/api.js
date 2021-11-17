@@ -62,8 +62,7 @@ export const patientAdd = async (token, data) =>{
 
 export const patientEdit = async (token, data, id) =>{
   const url =`${baseURL}/patient/edit`
-  const { patient_name, gender, birth_date, birth_place, address, phone_number, patient_id } = data
-  console.log(data);
+  const { patient_name, gender, birth_date, birth_place, address, phone_number } = data
   const response = await axios.post(url,
   {
     patient_id: id,
@@ -85,7 +84,6 @@ export const patientEdit = async (token, data, id) =>{
 }
 
 export const patientDeleteById = async (token, id) =>{
-  console.log(id);
   const url =`${baseURL}/patient/delete`
   const response = await axios.post(url,
   {

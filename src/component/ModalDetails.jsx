@@ -1,8 +1,7 @@
-import { Button,  Modal, ModalBody, ModalHeader } from "reactstrap"
+import {  Modal, ModalBody, ModalHeader } from "reactstrap"
 
 const ModalDetails = ({modal, toggle, data}) => {
   const { 
-    patient_id, 
     patient_name, 
     gender, 
     birth_date,
@@ -26,9 +25,6 @@ const ModalDetails = ({modal, toggle, data}) => {
           <h5>Birth of Date: {birth_date}</h5>
           <h5>Address: {address}</h5>
           <h5>Phone Number: {phone_number}</h5>
-          {/* <Button color='danger' onClick={toggle}>
-            Delete
-          </Button> */}
         </ModalBody>
       </Modal>
     </div>

@@ -1,7 +1,7 @@
 import { Button,  Modal, ModalBody, ModalHeader, Spinner } from "reactstrap"
 
 const ModalDelete = ({modal, toggle, deleteInfo, deleteById, token,isSpinner}) => {
-  const { patient_name, patient_id }= deleteInfo
+  const { patient_name }= deleteInfo
   return (
     <div>
       <Modal

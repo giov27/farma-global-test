@@ -1,4 +1,4 @@
-import { Button, Table, Tooltip } from "reactstrap"
+import { Button, Table } from "reactstrap"
 import { MdUpdate, MdDelete } from 'react-icons/md'
 import { FaPlusSquare } from "react-icons/fa";
 import { BiDetail } from 'react-icons/bi'
@@ -29,7 +29,6 @@ const PatientTable = ({token, data, pages, getList}) => {
 
   const toggleUpdateIndex = (modal, index) =>{
     setIndexData(index)
-    console.log(index);
     if (modal === 'details') {
       toggleDetails()
     } else if(modal === 'delete') {
@@ -47,7 +46,6 @@ const PatientTable = ({token, data, pages, getList}) => {
       setIsSpinner(false)
       getList()
     }, 800);
-    console.log(res);
   }
 
   return (
@@ -124,6 +122,7 @@ const PatientTable = ({token, data, pages, getList}) => {
               </tr>
 
             )}
+
             {data &&
             <ModalDelete
               modal={modalDelete}
@@ -143,6 +142,7 @@ const PatientTable = ({token, data, pages, getList}) => {
               token={token}
             />
             }
+
             {data &&
             <ModalUpdate
               modal={modalUpdate}

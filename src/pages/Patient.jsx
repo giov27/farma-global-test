@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Button, ButtonGroup, Spinner, Table } from 'reactstrap'
+import { Button, ButtonGroup, Spinner } from 'reactstrap'
 import { patientList } from '../api/api'
 import PatientTable from '../component/PatientTable'
-
 import './Patient.css'
-import ModalAdd from '../component/ModalAdd';
-
 
 const Patient = () => {
   let token = localStorage.getItem('token')
@@ -64,15 +61,6 @@ const Patient = () => {
           </Button>
         </ButtonGroup>
       </div>
-
-      {/* <ModalDelete
-        modal={modalDelete}
-        toggle={toggleDelete}
-        name={patient.patient_name} //parsingNameData
-        deleteById={deletePatient} //function
-      /> */}
-
-      
     </div>
   )
 }

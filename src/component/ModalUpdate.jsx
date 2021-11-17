@@ -1,9 +1,19 @@
 import { useEffect, useState } from "react"
 import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader } from "reactstrap"
-import { cityList, patientAdd } from "../api/api"
+import { cityList, patientAdd, patientEdit } from "../api/api"
 import './ModalAdd.css'
 
-const ModalAdd = ({token, modal, toggle}) => {
+const ModalUpdate = ({token, modal, toggle, data}) => {
+  console.log(data);
+  const { 
+    patient_id, 
+    patient_name, 
+    gender, 
+    birth_date,
+    birth_place,
+    address,
+    phone_number 
+  }= data
   const [values, setValues]= useState({
     patientName:'',
     gender:'L',
@@ -40,9 +50,9 @@ const ModalAdd = ({token, modal, toggle}) => {
     console.log(resCity);
   }
 
-  const postAddPatient = async (e)=>{
+  const postUpdatePatient = async (e)=>{
     e.preventDefault()
-    const res = await patientAdd(token, values)
+    const res = await patientEdit(token, values, patient_id )
     console.log(res);
 
   }
@@ -59,10 +69,10 @@ const ModalAdd = ({token, modal, toggle}) => {
         centered
       >
           <ModalHeader toggle={toggle}>
-            Add Patient
+            Update Patient
           </ModalHeader>
           <ModalBody>
-            <Form inline onSubmit={postAddPatient}>
+            <Form inline onSubmit={postUpdatePatient}>
               <div className="row g-2">
                 <div className="col-8">
                   <FormGroup floating>
@@ -72,6 +82,7 @@ const ModalAdd = ({token, modal, toggle}) => {
                       placeholder="Patient Name"
                       type="text"
                       onChange={handleChange}
+                      value={patient_name}
                     />
                     <Label for="patientName">
                       Patient Name
@@ -86,6 +97,7 @@ const ModalAdd = ({token, modal, toggle}) => {
                       placeholder="Gender"
                       type="select"
                       onChange={handleChange}
+                      value={gender}
                     >
                       <option value='L'>L</option>
                       <option value='P'>P</option>
@@ -105,6 +117,7 @@ const ModalAdd = ({token, modal, toggle}) => {
                       placeholder="Date Of Birth"
                       type="date"
                       onChange={handleChange}
+                      // value={birth_date}
                     />
                     <Label for="birthDate">
                       Date Of Birth
@@ -120,6 +133,7 @@ const ModalAdd = ({token, modal, toggle}) => {
                       type="number"
                       onChange={handleChangeBirthPlace}
                       autoComplete='off'
+                      value={birth_place.city_id}
                     />
                     <Label for="birthPlace">
                       Place Of Birth (Input code Area)
@@ -139,6 +153,7 @@ const ModalAdd = ({token, modal, toggle}) => {
                   placeholder='Address'
                   type='textarea'
                   onChange={handleChange}
+                  value={address}
                 />
                 <Label for='address'>Address</Label>
               </FormGroup>
@@ -149,6 +164,7 @@ const ModalAdd = ({token, modal, toggle}) => {
                   placeholder='Phone Number'
                   type='text'
                   onChange={handleChange}
+                  value={phone_number}
                 />
                 <Label for='phoneNumber'>Phone Number</Label>
               </FormGroup>
@@ -158,7 +174,7 @@ const ModalAdd = ({token, modal, toggle}) => {
                   type='submit'
                   color='primary'
                   toggle={toggle}>
-                    Add Patient
+                    Update Patient Data
                 </Button>
               </div>
             </Form>
@@ -168,4 +184,4 @@ const ModalAdd = ({token, modal, toggle}) => {
   )
 }
 
-export default ModalAdd
+export default ModalUpdate

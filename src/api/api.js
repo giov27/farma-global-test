@@ -40,15 +40,17 @@ export const patientById = async (token, id) =>{
 
 export const patientAdd = async (token, data) =>{
   const url =`${baseURL}/patient/add`
-  // const { patient_name, gender, birth_date, birth_place, address, phone_number } = data
+  const { patientName, gender, birthDate, birthPlace, address, phoneNumber } = data
+  console.log('api'+ birthDate);
+  console.log(data);
   const response = await axios.post(url,
   {
-    patient_name: "Byanca Harahap",
-    gender: "P",
-    birth_date: "1994-12-15",
-    birth_place: 501,
-    address: "Yogyakarta",
-    phone_number: "085463728901"
+    patient_name: patientName,
+    gender: gender,
+    birth_date: birthDate,
+    birth_place: parseInt(birthPlace),
+    address: address,
+    phone_number: phoneNumber
   },
   {
     headers:{
@@ -61,7 +63,7 @@ export const patientAdd = async (token, data) =>{
 export const patientEdit = async (token, data, id) =>{
   const url =`${baseURL}/patient/edit`
   // const { patient_name, gender, birth_date, birth_place, address, phone_number } = data
-  const response = await axios.put(url,
+  const response = await axios.post(url,
   {
     patient_id: id,
     patient_name: "Byanca Harahap",
@@ -79,16 +81,17 @@ export const patientEdit = async (token, data, id) =>{
   return response
 }
 
-export const patientDelete = async (token, id) =>{
+export const patientDeleteById = async (token, id) =>{
+  console.log(id);
   const url =`${baseURL}/patient/delete`
-  const response = await axios.delete(url,
+  const response = await axios.post(url,
   {
     patient_id: id,
   },
   {
     headers:{
       Authorization: `Bearer ${token}`
-    }
+    }, 
   })
   return response
 }

@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react'
-import { Button, ButtonGroup, Table } from 'reactstrap'
+import { Button, ButtonGroup, Spinner, Table } from 'reactstrap'
 import { patientList } from '../api/api'
 import PatientTable from '../component/PatientTable'
-import { FaPlusSquare } from "react-icons/fa";
+
 import './Patient.css'
 import ModalAdd from '../component/ModalAdd';
 
 
 const Patient = () => {
   let token = localStorage.getItem('token')
-  const [pages,setPages] = useState(2)
+  const [pages,setPages] = useState(1)
   const [patient, setPatient] = useState('')
-  const [modalAdd, setModalAdd] = useState(false)
-  const toggleAdd = () => setModalAdd(!modalAdd)
+  const [isSpinner, setIsSpinner] = useState(false)
 
 
   const [patientParams, setPatientParams]= useState({
@@ -23,44 +22,53 @@ const Patient = () => {
   })
 
   const getPatientList = async (token, page, data)=>{
+    setIsSpinner(true)
     const res = await patientList(token, page, data)
-    console.log(res.data.response.data);
-    setPatient(res.data.response.data)
+    setTimeout(() => {
+      setPatient(res.data.response.data)
+      setIsSpinner(false)
+    }, 800);
   }
 
+
   useEffect(() => {
-    getPatientList(token, 1, patientParams)
-  }, [])
+    getPatientList(token, pages, patientParams)
+  }, [pages])
+
   return (
-    <div>
-      {/* <Navbar /> */}
-      <h1>Patient List</h1>
-      <button onClick={toggleAdd}><FaPlusSquare size='sm'/></button>
-      <ModalAdd
-        modal={modalAdd}
-        toggle={toggleAdd}
-        token = {token}
-      />
-      
+    <div className='container-fluid patient__page'>            
       <div className='patient__table mx-auto mb-4'>
+        {isSpinner ? 
+        <div className='d-flex justify-content-center pt-5'>
+          <Spinner style={{height:'4vw', width:'4vw'}} />
+        </div>
+        :
         <PatientTable
           data={patient}
+          token={token}
         />
+        }
       </div>
       <div className='d-flex justify-content-center'>
-        <ButtonGroup>
-          <Button disabled={pages === 1}>
+        <ButtonGroup >
+          <Button color='primary' disabled={pages === 1} onClick={()=>setPages(pages-1)}>
             {'<'}
           </Button>
-          <Button>
+          <Button color='primary' onClick={()=>setPages(1)}>
             First
           </Button>
-          <Button onClick={()=>{setPages(pages+1)}}>
+          <Button color='primary' onClick={()=>{setPages(pages+1)}}>
             {'>'}
           </Button>
         </ButtonGroup>
       </div>
 
+      {/* <ModalDelete
+        modal={modalDelete}
+        toggle={toggleDelete}
+        name={patient.patient_name} //parsingNameData
+        deleteById={deletePatient} //function
+      /> */}
 
       
     </div>

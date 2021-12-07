@@ -31,7 +31,11 @@ const Login = () => {
     setTimeout(() => {
       if(res.data.metaData.code === 200){
         const token = res.data.response.token
-        localStorage.setItem('token', token)
+        console.log(typeof window)
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('token', token);
+        }
+        // localStorage.setItem('token', token)
         // redirect
         navigate('/patient')
       }else {

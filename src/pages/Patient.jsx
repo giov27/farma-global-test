@@ -35,6 +35,7 @@ const Patient = () => {
 
   useEffect(() => {
     getPatientList(pages)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pages])
 
   return (

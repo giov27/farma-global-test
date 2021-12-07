@@ -10,17 +10,22 @@ const Patient = () => {
   const [patient, setPatient] = useState('')
   const [isSpinner, setIsSpinner] = useState(false)
 
-
-  const [patientParams, setPatientParams]= useState({
+  // const [patientParams, setPatientParams]= useState({
+  //   patient_name:'',
+  //   gender:'',
+  //   city_id:'',
+  //   address:''
+  // })
+  const patientParams ={
     patient_name:'',
     gender:'',
     city_id:'',
     address:''
-  })
+  }
 
-  const getPatientList = async ()=>{
+  const getPatientList = async (page)=>{
     setIsSpinner(true)
-    const res = await patientList(token, pages, patientParams)
+    const res = await patientList(token, page, patientParams)
     setTimeout(() => {
       setPatient(res.data.response.data)
       setIsSpinner(false)
@@ -29,7 +34,7 @@ const Patient = () => {
 
 
   useEffect(() => {
-    getPatientList()
+    getPatientList(pages)
   }, [pages])
 
   return (

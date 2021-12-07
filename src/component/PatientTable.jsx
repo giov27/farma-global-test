@@ -39,7 +39,7 @@ const PatientTable = ({token, data, pages, getList}) => {
   }
 
   const deletePatient = async()=>{    
-    const res = await patientDeleteById(token, data[indexData].patient_id)
+    await patientDeleteById(token, data[indexData].patient_id)
     setIsSpinner(true)
     setTimeout(() => {
       toggleDelete()

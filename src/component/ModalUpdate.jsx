@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader, Spinner } from "reactstrap"
-import { cityList, patientEdit } from "../api/api"
+import { patientEdit } from "../api/api"
 import './ModalAdd.css'
 
 const ModalUpdate = ({token, modal, toggle, data, refreshTable}) => {

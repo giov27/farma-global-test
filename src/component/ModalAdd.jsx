@@ -44,6 +44,7 @@ const ModalAdd = ({token, modal, toggle, refreshTable}) => {
   const getCityList = async ()=>{
     const res = await cityList(token, values.birthPlace)
     const resCity = res.data.response.data
+    console.log(birthPlaceCity)
     setbirthPlaceCity(resCity)
   }
 
